@@ -13,3 +13,10 @@ rails: base
 dev: base
 	docker build -t colinjfw/dev:latest dev
 .PHONY: dev
+
+all: java rails dev
+	docker push colinjfw/base:latest
+	docker push colinjfw/java:latest
+	docker push colinjfw/rails:latest
+	docker push colinjfw/dev:latest
+.PHONY: all
