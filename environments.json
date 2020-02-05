@@ -16,7 +16,7 @@
   "rustysnek": {
     "name": "rustysnek",
     "base": "colinjfw/rust:latest",
-    "ports": ["3000:3001"],
+    "ports": [],
     "env": [],
     "services": []
   }
