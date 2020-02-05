@@ -1,6 +1,6 @@
 #!/bin/bash
 
-root="/usr/local/dev"
+root="$HOME/Documents/workspace/dev"
 cmd="$1"
 shift
 
