@@ -6,6 +6,8 @@ shift
 
 if [ "$cmd" == "boot" ]; then
   ENV_FILE="$root/environments.json" $root/scripts/boot $@
+elif [ "$cmd" == "list" ]; then
+  ENV_FILE="$root/environments.json" $root/scripts/list
 elif [ "$cmd" == "exec" ]; then
   docker exec \
     -w /home/colin \

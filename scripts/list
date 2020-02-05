@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+
+def cfg
+  File.open(ENV['ENV_FILE']) do |f|
+    @cfg ||= JSON.parse(f.read)
+  end
+  @cfg
+end
+
+cfg.keys.each do |k|
+  puts k
+end
