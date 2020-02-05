@@ -1,0 +1,9 @@
+name: sample
+root: <%= @args[0] %>
+
+windows:
+  - editor:
+      layout: bf0c,272x67,0,0[272x48,0,0,0,272x18,0,49,1]
+      panes:
+        - vim
+        -

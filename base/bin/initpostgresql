@@ -1,0 +1,5 @@
+#!/bin/bash
+
+chown -R postgres:postgres /var/lib/postgresql
+chown -R postgres:postgres /etc/postgresql
+rc-service postgresql start

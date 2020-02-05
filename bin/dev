@@ -1,0 +1,17 @@
+#!/bin/bash
+
+root="/usr/local/dev"
+cmd="$1"
+shift
+
+if [ "$cmd" == "boot" ]; then
+  ENV_FILE="$root/environments.json" $root/scripts/boot $@
+elif [ "$cmd" == "exec" ]; then
+  docker exec \
+    -w /home/colin \
+    --user colin \
+    -it $1 bash --init-file /home/colin/.bashrc
+else
+  echo "Command not found $cmd"
+  exit 1
+fi

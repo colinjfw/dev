@@ -1,0 +1,16 @@
+#!/bin/bash
+# Generic boot stuff.
+
+if [ -f /var/run/dev/init ]; then
+  exit 0
+fi
+
+echo "Initializing container..."
+chmod 777 /var/run/docker.sock
+chown -R colin:colin /home/colin
+
+for service in $SERVICES; do
+  /usr/local/bin/init$service
+done
+
+touch /var/run/dev/init

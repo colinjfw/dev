@@ -1,0 +1,15 @@
+{
+  "vinn": {
+    "name": "vinn",
+    "base": "colinjfw/rails:latest",
+    "env": [],
+    "ports": ["3000:3000"],
+    "services": ["postgresql"]
+  },
+  "deliverybot": {
+    "name": "deliverybot",
+    "base": "colinjfw/dev:latest",
+    "env": [],
+    "services": []
+  }
+}

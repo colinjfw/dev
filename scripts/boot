@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+def cfg
+  File.open(ENV['ENV_FILE']) do |f|
+    @cfg ||= JSON.parse(f.read)
+  end
+  @cfg
+end
+
+def repo
+  cfg[ARGV[0]]['repo']
+end
+
+def name
+  cfg[ARGV[0]]['name']
+end
+
+def base
+  cfg[ARGV[0]]['base']
+end
+
+def services
+  cfg[ARGV[0]]['services']
+end
+
+def env
+  cfg[ARGV[0]]['env'] + [
+    repo ? "REPOSITORY=#{repo}" : nil,
+    "WORKSPACE=#{name}",
+    services ? "SERVICES=\"#{services.join(" ")}\"" : nil,
+  ].select { |x| !x.nil? }
+end
+
+def bind
+  [ "#{ENV['HOME']}/.ssh:/home/colin/.ssh",
+    "#{ENV['HOME']}/Downloads:/home/colin/downloads",
+    "/var/run/docker.sock:/var/run/docker.sock",
+  ].select { |x| !x.nil? }
+end
+
+def mount
+  [ "source=#{name},target=/home/colin/#{name}",
+    "source=#{name}-run,target=/var/run/dev",
+    services.include?("postgresql") ? "source=#{name}-pglib,target=/var/lib/postgresql" : nil,
+    services.include?("postgresql") ? "source=#{name}-pgetc,target=/etc/postgresql" : nil,
+  ].select { |x| !x.nil? }
+end
+
+def ports
+  cfg[ARGV[0]]['ports'] || []
+end
+
+def args(f, arr)
+  if arr.length > 0
+    "-#{f} #{arr.join(" -#{f} ")}"
+  else
+    ''
+  end
+end
+
+def vsc_conf
+  {
+    "remoteUser": "colin",
+    "updateRemoteUserUID": false,
+    "settings": {"terminal.integrated.shell.linux": "/bin/bash"},
+    "containerUser": "root",
+    "workspaceFolder": "/home/colin/#{name}",
+  }
+end
+
+def run_cmd
+  "docker run --name #{name} -d #{args('p', ports)} #{args('e', env)} #{args('v', bind)} #{args('-mount', mount)} #{name}"
+end
+
+File.write(
+  "/Users/colinwalker/Library/ApplicationSupport/Code/User/globalStorage/ms-vscode-remote.remote-containers/imageConfigs/#{name}.json",
+  JSON.generate(vsc_conf),
+)
+
+`docker rm -f #{name} 2>/dev/null`
+`docker tag #{base} #{name}:latest 2>/dev/null`
+
+puts run_cmd
+if system(run_cmd)
+  puts name
+else
+  puts "failed"
+  exit 1
+end

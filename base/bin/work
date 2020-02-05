@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tmuxinator start default $PWD -n $(basename $PWD)

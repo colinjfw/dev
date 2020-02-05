@@ -1,0 +1,13 @@
+{
+  "coc.preferences.formatOnType": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "json",
+    "less",
+    "markdown",
+    "python",
+    "reason",
+    "yaml"
+  ]
+}
