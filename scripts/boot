@@ -82,7 +82,7 @@ File.write(
 `docker rm -f #{name} 2>/dev/null`
 `docker tag #{base} #{name}:latest 2>/dev/null`
 
-if system(run_cmd + ' 2>/dev/null')
+if system(run_cmd + ' >/dev/null')
   puts name
 else
   puts "failed"
