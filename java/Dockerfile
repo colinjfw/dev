@@ -1,7 +1,7 @@
 FROM colinjfw/base:latest
 
 ENV JAVA_VERSION 11
-ENV JAVA_HOME /opt/openjdk-11
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
 ENV PATH "$PATH:$JAVA_HOME/bin"
 ENV GRADLE_HOME /opt/gradle
 ENV GRADLE_VERSION 5.4.1

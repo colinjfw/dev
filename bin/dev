@@ -1,19 +1,39 @@
 #!/bin/bash
 
-root="$HOME/Documents/workspace/dev"
+root=${DEV_ROOT:-"$HOME/Documents/workspace/dev"}
+env_file="$root/environments.json"
 cmd="$1"
+
 shift
 
+export ENV_FILE=$env_file
+
 if [ "$cmd" == "boot" ]; then
-  ENV_FILE="$root/environments.json" $root/scripts/boot $@
+  $root/scripts/boot $@
 elif [ "$cmd" == "list" ]; then
-  ENV_FILE="$root/environments.json" $root/scripts/list
+  $root/scripts/list
+elif [ "$cmd" == "edit" ]; then
+  vi $env_file
+elif [ "$cmd" == "install" ]; then
+  sudo ln -s $root/bin/dev /usr/local/bin/dev
 elif [ "$cmd" == "exec" ]; then
   docker exec \
     -w /home/colin \
     --user colin \
     -it $1 bash --init-file /home/colin/.bashrc
 else
-  echo "Command not found $cmd"
+  echo "Setup a development environment:"
+  echo ""
+  echo "  boot       Boot a development environment"
+  echo "  list       List all development environments"
+  echo "  edit       Edit development environments"
+  echo "  exec       Shell into a development environment"
+  echo "  install    Link the install script"
+  echo ""
+  echo "Configuration:"
+  echo ""
+  echo "  DEV_ROOT = $root"
+  echo "  ENV_FILE = $env_file"
+  echo ""
   exit 1
 fi

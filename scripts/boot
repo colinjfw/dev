@@ -25,6 +25,10 @@ def services
   cfg[ARGV[0]]['services']
 end
 
+def extensions
+  cfg[ARGV[0]]['extensions']
+end
+
 def env
   cfg[ARGV[0]]['env'] + [
     repo ? "REPOSITORY=#{repo}" : nil,
@@ -66,6 +70,7 @@ def vsc_conf
     "updateRemoteUserUID": false,
     "settings": {"terminal.integrated.shell.linux": "/bin/bash"},
     "containerUser": "root",
+    "extensions": extensions,
     "workspaceFolder": "/home/colin/#{name}",
   }
 end
