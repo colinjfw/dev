@@ -14,9 +14,14 @@ dev: base
 	docker build -t colinjfw/dev:latest dev
 .PHONY: dev
 
-all: java rails dev
+rust: base
+	docker build -t colinjfw/rust:latest rust
+.PHONY: rust
+
+all: java rails dev rust
 	docker push colinjfw/base:latest
 	docker push colinjfw/java:latest
 	docker push colinjfw/rails:latest
 	docker push colinjfw/dev:latest
+	docker push colinjfw/rust:latest
 .PHONY: all
