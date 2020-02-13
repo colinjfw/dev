@@ -10,6 +10,12 @@ def cfg
   @cfg
 end
 
+def pad(val, n)
+  val + (" " * (n-val.length))
+end
+
+puts "#{pad("NAME", 20)} STATE"
 cfg.keys.each do |k|
-  puts k
+  status = `docker container inspect --format='{{json .State.Status}}' #{k}`
+  puts "#{pad(k, 20)} #{status.chomp.gsub(/"/, "")}"
 end

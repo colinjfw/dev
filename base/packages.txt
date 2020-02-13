@@ -10,6 +10,7 @@ curl
 wget
 ca-certificates
 git
+git-bash-completion
 bash
 bash-completion
 make

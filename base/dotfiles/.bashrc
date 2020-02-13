@@ -4,11 +4,11 @@ function git_branch() {
   git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ /[/" | sed "s/$/]/"
 }
 
-function kubernetes_context() {
-  echo "[$( kubectl config current-context 2>/dev/null )]"
-}
+NORMAL="\[\e[0m\]"
+GREEN="\[\e[1;30m\]"
+BRANCH=$(git_branch)
 
-export PS1='\W $(git_branch) $(kubernetes_context) $ '
+export PS1="$GREEN\W $BRANCH \$ $NORMAL"
 
 function to() {
   arg="$1/$2"
@@ -21,6 +21,7 @@ alias com="git add -A && git commit -m"
 export EDITOR="nvim"
 alias vi="nvim"
 alias vim="nvim"
+
 set -o vi
 
 # Since I am using a non-POSIX locale this is needed so that sort produces reliable output.
@@ -34,3 +35,5 @@ alias getclip="xclip -selection c -o"
 if [ -x "$(command -v bat)" ]; then
   alias cat="bat"
 fi
+
+source /etc/profile.d/bash_completion.sh
